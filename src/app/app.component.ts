@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TimelineLite, Linear} from 'gsap';
 
 @Component({
@@ -6,19 +6,17 @@ import {TimelineLite, Linear} from 'gsap';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements AfterViewInit {
+
+  @ViewChild('progress') progressElement: ElementRef;
 
   public timeline = new TimelineLite();
 
-  ngOnInit() {
-    setTimeout(() => {
-      this.start();
-    }, 3000);
+  ngAfterViewInit() {
+    this.start();
   }
 
   start() {
-    const progress = document.getElementById('progress');
-    this.timeline.fromTo(progress, 10, {width: '100%'}, {width: 0, ease: Linear.easeNone});
+    this.timeline.fromTo(this.progressElement.nativeElement, 10, {width: '100%'}, {width: 0, ease: Linear.easeNone});
   }
-
 }
